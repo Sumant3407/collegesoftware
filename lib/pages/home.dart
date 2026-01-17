@@ -24,28 +24,22 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.w600
-                  )
+                    fontWeight: FontWeight.w600,
                   ),
+                ),
               ),
               SizedBox(height: 15),
               Container(
                 height: 150,
-                color: Colors.green,
+                color: const Color.fromARGB(255, 120, 201, 123),
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
                   itemBuilder: (context, index) {
-                    return Container(
-                      width: 120,
-                      margin: EdgeInsets.only(left: 20),
-                      color: Colors.blue,
-                    );
+                    return Container();
                   },
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -53,53 +47,53 @@ class HomePage extends StatelessWidget {
 
   Container _searchFeild() {
     return Container(
-          margin: EdgeInsets.only(top: 40, left: 20, right: 20),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xff1D1617).withOpacity(0.11),
-                spreadRadius: 0.0,
-                blurRadius: 40,
-              ),
-            ],
+      margin: EdgeInsets.only(top: 40, left: 20, right: 20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xff1D1617).withOpacity(0.11),
+            spreadRadius: 0.0,
+            blurRadius: 40,
           ),
-          child: TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: EdgeInsets.all(15),
-              hintText: 'Search for courses',
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(10),
-                child: SvgPicture.asset('assets/icons/Search.svg'),
-              ),
-              suffixIcon: Container(
-                width: 100,
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      VerticalDivider(
-                        color: Colors.black,
-                        indent: 10,
-                        endIndent: 10,
-                        thickness: 0.5,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: SvgPicture.asset('assets/icons/Filter.svg'),
-                      ),
-                    ],
+        ],
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.all(15),
+          hintText: 'Search for courses',
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10),
+            child: SvgPicture.asset('assets/icons/Search.svg'),
+          ),
+          suffixIcon: Container(
+            width: 100,
+            child: IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  VerticalDivider(
+                    color: Colors.black,
+                    indent: 10,
+                    endIndent: 10,
+                    thickness: 0.5,
                   ),
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: SvgPicture.asset('assets/icons/Filter.svg'),
+                  ),
+                ],
               ),
             ),
           ),
-        );
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
   }
 
   AppBar appBar() {
