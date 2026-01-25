@@ -1,96 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:collegesoftware/pages/resource_page.dart';
+import 'package:collegesoftware/pages/events_page.dart';
+import 'package:collegesoftware/pages/announcements.dart';
+import 'package:collegesoftware/pages/view_spec_events.dart';
+import 'package:collegesoftware/pages/view_spec_resources.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final bool isSpectator;
+
+  const HomePage({this.isSpectator = false, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(),
-      backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _searchFeild(),
-          SizedBox(height: 30),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  'Category',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-              Container(
-                height: 150,
-                color: const Color.fromARGB(255, 120, 201, 123),
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Container();
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _searchFeild() {
-    return Container(
-      margin: EdgeInsets.only(top: 40, left: 20, right: 20),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xff1D1617).withOpacity(0.11),
-            spreadRadius: 0.0,
-            blurRadius: 40,
-          ),
-        ],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.all(15),
-          hintText: 'Search for courses',
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(10),
-            child: SvgPicture.asset('assets/icons/Search.svg'),
-          ),
-          suffixIcon: Container(
-            width: 100,
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  VerticalDivider(
-                    color: Colors.black,
-                    indent: 10,
-                    endIndent: 10,
-                    thickness: 0.5,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: SvgPicture.asset('assets/icons/Filter.svg'),
-                  ),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Text(
+              'Welcome to Campus Hub',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide.none,
-          ),
+            const SizedBox(height: 8),
+            Text(
+              isSpectator ? 'Browse campus activities' : 'Manage resources and events',
+              style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+            ),
+            const SizedBox(height: 24),
+            _ModernCard(
+              icon: Icons.library_books,
+              title: 'Resources',
+              subtitle: isSpectator ? 'View campus resources' : 'Access campus resources',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => isSpectator ? const ViewSpecResourcesPage() : const ResourcePage(),
+                  ),
+                );
+              },
+            ),
+            _ModernCard(
+              icon: Icons.event,
+              title: 'Events',
+              subtitle: isSpectator ? 'View upcoming events' : 'Upcoming campus events',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => isSpectator ? const ViewSpecEventsPage() : const EventsPage(),
+                  ),
+                );
+              },
+            ),
+            _ModernCard(
+              icon: Icons.announcement,
+              title: 'Announcements',
+              subtitle: 'Latest updates',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AnnouncementsPage()),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Quick Stats',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                _StatCard('Resources', '45'),
+                _StatCard('Events', '12'),
+                _StatCard('Users', '1250'),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -144,6 +134,93 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ModernCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _ModernCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: Colors.blue.shade600, size: 28),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, color: Colors.grey.shade400, size: 18),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _StatCard(this.label, this.value);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Text(
+                value,
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              const SizedBox(height: 8),
+              Text(label, style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
